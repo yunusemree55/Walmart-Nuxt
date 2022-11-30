@@ -30,6 +30,10 @@ export default {
       },
       {
         rel: 'stylesheet',
+        href: '/js/bootstrap2.js'
+      },
+      {
+        rel: 'stylesheet',
         href: '/css/vuetify.css'
       },
       {
