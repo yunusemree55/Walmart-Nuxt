@@ -1,0 +1,69 @@
+input#searchInput {
+
+    background: url('@/static/photos/searchButton.png') no-repeat 2px white;
+    background-position-x: right;
+    background-size: 30px;
+
+
+}
+
+div#blackFriday {
+
+    background: url('https://i.vimeocdn.com/video/1534858719-a6b1cd1ea46a0961c7a66cd2baf07f5bd9e949f777f2c17d029675f546502b39-d?mw=1300&mh=214');
+    height: 200px;
+    background-size: cover;
+
+}
+
+div#sliderBox {
+    height: 5rem;
+}
+
+div#BF-content {
+
+    margin-left: 20rem;
+
+
+}
+
+div#starProduct {
+    width: 26rem;
+}
+
+img#starProductImage {
+
+    height: 260px;
+
+}
+
+
+div#deliveryBox {
+
+    height: 150px;
+    background-color: rgb(230, 241, 252)
+}
+
+div#popularServiceCard {
+
+    height: 250px;
+
+}
+
+
+.bg-blue{
+
+
+    background-color: rgb(230,241,252)
+
+
+}
+
+div#walmartCard{
+
+    background: url("//i5.walmartimages.com/dfw/63fd9f59-ac39/29c6759d-7f14-49fa-bd3a-b870eb4fb8fb/v1/wplus-bg-dweb.svg") scroll ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50px;
+
+
+}
