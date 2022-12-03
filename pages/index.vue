@@ -36,9 +36,20 @@
 
       <WalmartPlus />
 
-      <ProductSlider />
+      <ProductSlider header="Everyday savings" />
 
-      
+
+      <TravelReady />
+
+      <ForYou />
+
+      <FavoriteDepartment />
+
+      <WalmartCreditCard />
+
+      <ProductSlider header="Build your cart" />
+
+      <ProductSlider header="Popular in home organization" />
 
     </div>
 

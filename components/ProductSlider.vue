@@ -1,8 +1,9 @@
 <template>
-    <div class="row">
+    <div class="row mt-4">
+        <h5>{{header}}</h5>
         <template>
           <v-sheet elevation="8">
-            <v-slide-group  class="pa-4" mandatory show-arrows>
+            <v-slide-group  class="pa-4 mt-2" mandatory show-arrows>
               <v-slide-item v-for="n in 10" :key="n" v-slot="{ active, toggle }">
                 <v-card :color="active ? 'primary' : 'grey lighten-1'" class="ma-4" height="460" width="200"
                   @click="toggle">
@@ -39,6 +40,18 @@
           </v-sheet>
         </template>
 
+        
+        <hr class="mt-5 text-secondary" />
 
       </div>
 </template>
+
+
+<script>
+export default {
+  
+
+  props:["header"]
+
+}
+</script>
