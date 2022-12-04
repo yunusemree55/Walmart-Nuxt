@@ -51,7 +51,24 @@
 
       <ProductSlider header="Popular in home organization" />
 
+      <SeasonCard header="In season" />
+
+      <ProductSlider header="Popular in household appliances & accessories" />
+
+      <SeasonCard header="Brand new for you" />
+
+      <ProductSlider header="Save on kitchen & dining" />
+
+      <MarketCard header="Health & wellness"/>
+
+      <MarketCard header="Sharing our values"/>
+      <hr class="mt-2 text-secondary" />
+
     </div>
+
+    <Feedback />
+
+    <Footer />
 
   </div>
 
