@@ -82,19 +82,21 @@
                     <v-divider vertical></v-divider>
 
                     <button class="btn btn-sm btn-primary">
+                        <router-link class="text-light text-decoration-none" :to="{ path: '/login' }">
 
-                        <div class="row">
+                            <div class="row">
 
-                            <div class="col-2 mt-2">
-                                <img width="20" src="@/static/photos/account.png">
+                                <div class="col-2 mt-2">
+                                    <img width="20" src="@/static/photos/account.png">
+                                </div>
+
+
+
+                                <div class="col-9 text-start ms-2"> <small>Sign In <br />
+                                        <span class="fw-bold fs-6">Account</span></small></div>
+
                             </div>
-
-
-
-                            <div class="col-9 text-start ms-2"> <small>Sign In <br />
-                                    <span class="fw-bold fs-6">Account</span></small></div>
-
-                        </div>
+                        </router-link>
 
                     </button>
 
@@ -135,3 +137,12 @@
 
     </div>
 </template>
+
+<script>
+export default {
+
+
+
+
+}
+</script>
