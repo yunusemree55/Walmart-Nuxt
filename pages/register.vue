@@ -13,7 +13,7 @@
             <v-window v-model="step">
                 <v-window-item :value="1">
                     <v-card-text>
-                        <v-text-field v-model="email" label="Email" placeholder="john@walmart.com"></v-text-field>
+                        <v-text-field v-model="userData.email" label="Email" placeholder="john@walmart.com"></v-text-field>
                         <span class="text-caption grey--text text--darken-1">
                             This is the email you will use to login to your Walmart account
                         </span>
@@ -22,8 +22,8 @@
 
                 <v-window-item style="width: 900px;" :value="2">
                     <v-card-text>
-                        <v-text-field v-model="password" label="Password" type="password"></v-text-field>
-                        <v-text-field label="Confirm Password" type="password"></v-text-field>
+                        <v-text-field v-model="userData.password" label="Password" type="password"></v-text-field>
+                        <v-text-field v-model="userData.password2" label="Confirm Password" type="password"></v-text-field>
                         <span class="text-caption grey--text text--darken-1">
                             Please enter a password for your account
                         </span>
@@ -45,11 +45,11 @@
             <v-divider></v-divider>
 
             <v-card-actions>
-                <v-btn v-if="step !== 3" class="text-warning" :disabled="step === 1" text @click="step--">
+                <v-btn v-if="step !== 3" class="text-warning" :disabled="step === 1 || userData.password !== userData.password2 " text @click="step--">
                     Back
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn v-if="step !== 3"  :disabled="step === 3" class="btn-warning text-warning" depressed @click="step++,read(email,password)">
+                <v-btn v-if="step !== 3 && userData.password == userData.password2"  :disabled="step === 3" class="btn-warning text-warning" depressed @click="step++,createUser(userData)">
                     Next
                 </v-btn>
             </v-card-actions>
@@ -61,11 +61,21 @@
 </template>
 
 <script>
+
+import { collection, addDoc } from "firebase/firestore"; 
+import {db} from "@/firebase"
+import CryptoJs from "crypto-js"
+
 export default {
     data: () => ({
         step: 1,
-        email:null,
-        password:null
+        userData:{
+            email:null,
+            password:null,
+            password2:null
+        },
+
+        saltKey:"ra2nd3om!key&"
 
     }),
 
@@ -80,12 +90,29 @@ export default {
     },
 
     methods: {
-        read(email,password){
-            if(password != null){
-                console.log(email + " -> " + password);
-            }
+        async createUser(userData){
+
+            if(userData.password != null && userData.password == userData.password2){
+                const data = {
+                    ...userData
+                }
+                delete data.password2
+
+                data.password = CryptoJs.SHA256(data.password,this.saltKey).toString()
+
+                console.log(data.password);
+                
+                await addDoc(collection(db, "users"),data);
+
+                setTimeout(() => {
+                    this.$router.push({path:"/login"})
+                }, 1500);
+                
+
+            } 
         }
+        
     },
 }
-</script>
+</script> 
 
