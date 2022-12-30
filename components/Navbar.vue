@@ -62,7 +62,7 @@
 
 
 
-                    <button class="btn btn-sm btn-primary">
+                    <button v-if="checkLoginSituation" class="btn btn-sm btn-primary">
 
                         <div class="row">
 
@@ -81,7 +81,7 @@
 
                     <v-divider vertical></v-divider>
 
-                    <button class="btn btn-sm btn-primary">
+                    <button v-if="!checkLoginSituation" class="btn btn-sm btn-primary">
                         <router-link class="text-light text-decoration-none" :to="{ path: '/login' }">
 
                             <div class="row">
@@ -102,7 +102,7 @@
 
                     <v-divider vertical></v-divider>
 
-                    <button class="btn btn-sm btn-primary">
+                    <button v-if="checkLoginSituation" class="btn btn-sm btn-primary">
 
                         <div class="row">
 
@@ -139,9 +139,17 @@
 </template>
 
 <script>
+
+import { mapGetters } from "vuex"
+
 export default {
 
 
+    computed: {
+
+        ...mapGetters(['checkLoginSituation'])
+
+    }
 
 
 }

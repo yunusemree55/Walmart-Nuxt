@@ -4,7 +4,7 @@
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-lg-12 col-xl-11">
-                        <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card text-black mb-2" style="border-radius: 25px;">
                             <div class="card-body p-md-5">
                                 <div class="row justify-content-center">
                                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
@@ -16,14 +16,16 @@
                                             <div class="d-flex flex-row align-items-center mb-4">
                                                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div class="form-outline flex-fill mb-0">
-                                                    <v-text-field type="email" label="Email"></v-text-field>
+                                                    <v-text-field v-model="userData.email" type="email"
+                                                        label="Email"></v-text-field>
                                                 </div>
                                             </div>
 
                                             <div class="d-flex flex-row align-items-center mb-4">
                                                 <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div class="form-outline flex-fill mb-0">
-                                                    <v-text-field type="password" label="Password"></v-text-field>
+                                                    <v-text-field v-model="userData.password" type="password"
+                                                        label="Password"></v-text-field>
                                                 </div>
                                             </div>
 
@@ -32,12 +34,14 @@
 
                                         </form>
                                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                            <button type="button"
+                                            <button @click="login(userData)" type="button"
                                                 class="btn btn-primary btn-lg text-light fw-bold">Login</button>
                                         </div>
 
                                         <div class="">
-                                            <p>You don't have an account?  <router-link class="text-decoration-none fw-bold" :to="{path:'/register'}">Register</router-link></p>
+                                            <p>You don't have an account? <router-link
+                                                    class="text-decoration-none fw-bold"
+                                                    :to="{ path: '/register' }">Register</router-link></p>
                                         </div>
 
                                     </div>
@@ -48,12 +52,89 @@
                                             class="img-fluid" alt="Sample image">
 
                                     </div>
+
+
                                 </div>
                             </div>
+                        </div>
+                        <div v-if="alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong> {{alertMessage}}</strong>
+
+                            <button @click="alert = !alert" type="button" class="close float-end fw-bold" data-dismiss="alert"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
     </div>
 </template>
+
+
+
+<script>
+
+import {mapSetters} from "vuex"
+
+export default {
+
+    data() {
+        return {
+            userData: {
+                email: null,
+                password: null
+            },
+            alertMessage: null,
+            alert: false
+        }
+
+    },
+    methods: {
+
+
+        login(userData) {
+
+            const user = {
+                ...userData
+            }
+
+            this.$store.commit('setUser',user)
+            this.$store.commit('setLogin',true)
+
+            if (user.email == null || user.password == null) {
+
+                this.alert = true
+                this.alertMessage = "Please fill empty fields"
+
+            } else if (user.email.indexOf("@") < 0) {
+
+                this.alert = true
+                this.alertMessage = "Please write your email correctly"
+            }
+
+
+            else {
+                 this.$router.push({ path: '/' })
+            }
+
+
+        }
+
+
+    },
+    computed: {
+
+
+
+
+    }
+
+
+}
+
+
+</script>

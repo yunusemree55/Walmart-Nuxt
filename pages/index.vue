@@ -36,7 +36,7 @@
 
       <WalmartPlus />
 
-      <ProductSlider header="Everyday savings" />
+      <ProductSlider  header="Everyday savings" />
 
 
       <TravelReady />
