@@ -101,15 +101,31 @@
                     </button>
 
                     <v-divider vertical></v-divider>
+                    <routerLink :to="{ path: '/basket' }">
+                        <button v-if="checkLoginSituation" class="btn btn-sm btn-primary">
 
-                    <button v-if="checkLoginSituation" class="btn btn-sm btn-primary">
+                            <div class="row">
 
-                        <div class="row">
+                                <div class="col-2 mt-2">
+                                    <img width="20" src="@/static/photos/basket.png">
+                                    <p>$0.00</p>
+                                </div>
 
-                            <div class="col-2 mt-2">
-                                <img width="20" src="@/static/photos/basket.png">
-                                <p>$0.00</p>
+
+
+
+
                             </div>
+
+                        </button>
+
+                    </routerLink>
+                    <button v-if="checkLoginSituation == true" class="btn btn-sm btn-primary "
+                        @click="logout">
+
+                        <div class=" my-auto">
+
+                            <button type="button" class="btn btn-danger">Logout</button>
 
 
 
@@ -118,7 +134,6 @@
                         </div>
 
                     </button>
-
 
 
                 </v-toolbar-items>
@@ -149,7 +164,13 @@ export default {
 
         ...mapGetters(['checkLoginSituation'])
 
-    }
+    },
+    methods: {
+        logout(){
+            this.$store.commit('setUser',null)
+            this.$store.commit('setLogin',false)
+        }
+    },
 
 
 }

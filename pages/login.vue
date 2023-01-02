@@ -126,12 +126,7 @@ export default {
 
 
     },
-    computed: {
 
-
-
-
-    }
 
 
 }

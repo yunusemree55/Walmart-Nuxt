@@ -50,17 +50,15 @@ div#popularServiceCard {
 }
 
 
-.bg-blue{
+.bg-blue {
 
 
-    background-color: rgb(230,241,252)
-
-
+    background-color: rgb(230, 241, 252)
 }
 
-div#walmartCard{
+div#walmartCard {
 
-    background: url("//i5.walmartimages.com/dfw/63fd9f59-ac39/29c6759d-7f14-49fa-bd3a-b870eb4fb8fb/v1/wplus-bg-dweb.svg") scroll ;
+    background: url("//i5.walmartimages.com/dfw/63fd9f59-ac39/29c6759d-7f14-49fa-bd3a-b870eb4fb8fb/v1/wplus-bg-dweb.svg") scroll;
     background-repeat: no-repeat;
     background-size: cover;
     height: 50px;
@@ -68,9 +66,17 @@ div#walmartCard{
 
 }
 
-div#walmartCreditCard{
+div#walmartCreditCard {
 
-    background-color: rgb(230,241,252);
+    background-color: rgb(230, 241, 252);
 
 }
+
+
+@media (min-width: 1025px) {
+    .h-custom {
+        height: 100vh !important;
+    }
+}
+
 
