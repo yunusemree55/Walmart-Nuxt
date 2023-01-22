@@ -101,6 +101,7 @@ export default {
   methods: {
     itemDetail(item) {
 
+      this.$store.commit("setSelectedProduct",item)
       this.$router.push({ name: "about", params: { item }, query: { id: item.id } })
     }
   },
