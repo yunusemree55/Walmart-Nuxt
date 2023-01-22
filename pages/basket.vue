@@ -24,7 +24,7 @@
                     <hr class="my-4">
 
 
-                    <BasketItem v-for="item in basketData" :key="item.id" :item="item" />
+                    <BasketItem v-for="item in basketData" :key="item.id" :item="item" @deleteItem="deleteItem(item)" />
 
 
                     <div class="pt-5">
@@ -82,7 +82,7 @@
 
 
 <script>
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs,doc,updateDoc,arrayRemove } from "firebase/firestore";
 import { mapGetters } from "vuex";
 import { db } from "~/firebase";
 export default {
@@ -121,6 +121,20 @@ export default {
     console.log(this.getTotalPrice);
   },
 
+  methods: {
+    async deleteItem(item){
+      const targetDB = doc(db, "users", this.getUser.email);
+
+
+      await updateDoc(targetDB, {
+        basket: arrayRemove(item)
+      });
+
+      this.basketData = this.basketData.filter(i => i.id != item.id)
+      this.totalPrice = this.totalPrice - item.unitPrice
+      this.$store.commit('setTotalPrice', this.totalPrice)
+    }
+  },
 
   computed: {
 

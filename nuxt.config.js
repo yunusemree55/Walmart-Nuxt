@@ -62,6 +62,7 @@ export default {
   buildModules: [
 
     '@nuxtjs/vuetify',
+    '@nuxtjs/pwa'
 
   ],
 

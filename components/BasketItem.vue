@@ -23,7 +23,7 @@
           <h6 class="mb-0">$ {{item?.unitPrice}}</h6>
       </div>
       <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-          <a href="#!" class="text-muted"> <button type="button" class="btn-close" data-bs-dismiss="alert"
+          <a class="text-muted"> <button @click="$emit('deleteItem',item)" type="button" class="btn-close" data-bs-dismiss="alert"
                   aria-label="Close"></button></a>
       </div>
 

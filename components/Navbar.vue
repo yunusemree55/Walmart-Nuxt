@@ -1,8 +1,8 @@
 <template>
   <div>
 
-    <header>
-      <v-toolbar style="height: 120px;" class="pt-4 fixed-top" color="bg-primary" dark>
+    <header >
+      <v-toolbar style="height: 120px;" class="pt-4 fixed-top" color="bg-primary" dark  fixed>
         <v-toolbar-title>
 
 

@@ -29,14 +29,27 @@
                           @click="snackbar = true, addToBasket(selectedItem)">
                           Add Basket
                         </v-btn>
+                        <v-btn v-if="checkLoginSituation" class="bg-warning text-light "
+                          @click="snackbar2 = true, addToFavorite(selectedItem)">
+                          Add Favorite
+                        </v-btn>
                         <v-btn v-if="!checkLoginSituation" class="bg-primary text-light " @click="goToLoginPage">
                           Login before add to basket
                         </v-btn>
-                        <v-snackbar v-model="snackbar">
+                        <v-snackbar v-model="snackbar" :timeout="timeout">
                           <b>{{ selectedItem?.productName }}</b> added to basket
 
                           <template v-slot:action="{ attrs }">
                             <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+                              Close
+                            </v-btn>
+                          </template>
+                        </v-snackbar>
+                        <v-snackbar v-model="snackbar2" :timeout="timeout">
+                          <b>{{ selectedItem?.productName }}</b> added to favorite!
+
+                          <template v-slot:action="{ attrs2 }"  >
+                            <v-btn color="pink" text v-bind="attrs2" @click="snackbar2 = false">
                               Close
                             </v-btn>
                           </template>
@@ -67,6 +80,9 @@ export default {
     return {
       selectedItem: null,
       snackbar: false,
+      snackbar2:false,
+      totalPrice:0,
+      timeout:1620
     }
   },
 
@@ -76,7 +92,7 @@ export default {
 
 
     this.selectedItem = this.getSelectedProduct
-
+    this.totalPrice = this.getTotalPrice
 
   },
 
@@ -89,18 +105,25 @@ export default {
       await updateDoc(targetDB, {
         basket: arrayUnion(item)
       });
-
-
-
+      this.totalPrice = this.totalPrice + item.unitPrice
+      this.$store.commit('setTotalPrice',this.totalPrice)
 
     },
     goToLoginPage() {
       this.$router.push({ path: '/login' })
+    },
+    async addToFavorite(item){
+      const targetDB = doc(db, "users", this.getUser.email);
+
+
+      await updateDoc(targetDB, {
+        favorites: arrayUnion(item)
+      });
     }
   },
   computed: {
 
-    ...mapGetters(['checkLoginSituation', 'getSelectedProduct', 'getUser'])
+    ...mapGetters(['checkLoginSituation', 'getSelectedProduct', 'getUser','getTotalPrice'])
 
   }
 
