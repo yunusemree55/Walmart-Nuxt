@@ -79,6 +79,7 @@ import CryptoJs from "crypto-js"
 import { mapSetters } from "vuex"
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase"
+import { del } from "vue";
 
 export default {
 
@@ -99,7 +100,7 @@ export default {
 
     async login(userData) {
 
-      const user = {
+      let user = {
         ...userData
       }
       user.password = CryptoJs.SHA256(user.password, this.saltKey).toString()
@@ -112,9 +113,12 @@ export default {
           this.alertMessage = "Wrong password!"
           this.alert = true
         } else {
-          this.$store.commit('setUser', user)
+          user = docSnap.data()
+          delete user.password
+          this.$store.commit('setUser',user)
           this.$store.commit('setLogin', true)
-          user.userId = docSnap.data().userId
+          // user.userId = docSnap.data().userId,
+          // user.basket = docSnap.data().basket
           this.$router.push({ path: '/' })
 
         }

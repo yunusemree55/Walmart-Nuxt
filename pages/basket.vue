@@ -15,16 +15,16 @@
           <div class="card card-registration card-registration-2" style="border-radius: 15px;">
             <div class="card-body p-0">
               <div class="row g-0">
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                   <div class="p-5">
                     <div class="d-flex justify-content-between align-items-center mb-5">
                       <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                      <h6 class="mb-0 text-muted">3 items</h6>
+                      <h6 class="mb-0 text-muted">{{ basketData.length }} items</h6>
                     </div>
                     <hr class="my-4">
 
 
-                    <BasketItem />
+                    <BasketItem v-for="item in basketData" :key="item.id" :item="item" />
 
 
                     <div class="pt-5">
@@ -34,21 +34,21 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 bg-grey">
+                <div class="col-lg-5 bg-grey">
                   <div class="p-5">
                     <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                     <hr class="my-4">
 
                     <div class="d-flex justify-content-between mb-4">
-                      <h5 class="text-uppercase">items 3</h5>
-                      <h5>€ 132.00</h5>
+                      <h5 class="text-uppercase">items {{ basketData.length }}</h5>
+                      <h5>$ {{ this.getTotalPrice.toFixed(2)}}</h5>
                     </div>
 
                     <h5 class="text-uppercase mb-3">Shipping</h5>
 
                     <div class="mb-4 pb-2">
                       <select class="select">
-                        <option value="1">Standard-Delivery- €5.00</option>
+                        <option value="1">Standard-Delivery- $5.00</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                         <option value="4">Four</option>
@@ -57,13 +57,14 @@
 
                     <hr class="my-4">
 
+                    <CreditCard />
+
+                    <hr class="my-4" />
                     <div class="d-flex justify-content-between mb-5">
                       <h5 class="text-uppercase">Total price</h5>
-                      <h5>€ 137.00</h5>
+                      <h5>$ {{ this.getTotalPrice.toFixed(2) }}</h5>
                     </div>
 
-                    <button type="button" class="btn btn-dark text-light btn-block btn-lg"
-                      data-mdb-ripple-color="dark">Proceed to pay</button>
 
                   </div>
                 </div>
@@ -81,7 +82,55 @@
 
 
 <script>
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { mapGetters } from "vuex";
+import { db } from "~/firebase";
+export default {
 
+  data() {
+    return {
+      dbBasketData: [],
+      basketData: [],
+      totalPrice:0
+    }
+  },
+
+  async mounted() {
+    const q = query(collection(db, "users"), where("email", "==", this.getUser.email));
+    const basket = await getDocs(q);
+    basket?.forEach((doc) => {
+
+      this.dbBasketData?.push(doc.data().basket)
+
+      this.dbBasketData?.forEach((item) => {
+        item?.forEach((item) => {
+          this.basketData.push(item)
+        })
+      })
+    });
+
+    this.basketData.forEach((item) => {
+
+
+      this.totalPrice = this.totalPrice + item.unitPrice
+
+    })
+
+    this.$store.commit('setTotalPrice', this.totalPrice)
+
+    console.log(this.getTotalPrice);
+  },
+
+
+  computed: {
+
+    ...mapGetters(['getUser', 'getTotalPrice'])
+
+  }
+
+
+
+}
 </script>
 
 

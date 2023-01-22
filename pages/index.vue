@@ -36,7 +36,7 @@
 
       <WalmartPlus />
 
-      <ProductSlider :data="data" header="Everyday savings" @itemDetail="itemDetail"/>
+      <ProductSlider :data="data" header="Everyday savings" @itemDetail="itemDetail" />
 
 
       <TravelReady />
@@ -75,7 +75,8 @@
 </template>
 
 <script>
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { mapGetters } from "vuex";
 import { db } from "~/firebase";
 export default {
 
@@ -83,12 +84,19 @@ export default {
     return {
 
       name: 'Merhaba',
-      data: []
+      data: [],
+      dbBasketData: [],
+      basketData:[],
+      totalPrice:0
 
     }
   },
 
+
+
+
   async mounted() {
+
     const querySnapshot = await getDocs(collection(db, "products"));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
@@ -96,15 +104,51 @@ export default {
 
     });
 
+    const q = query(collection(db, "users"), where("email", "==", this.getUser.email));
+    const basket = await getDocs(q);
+    basket?.forEach((doc) => {
+
+      this.dbBasketData?.push(doc.data().basket)
+
+      this.dbBasketData.forEach((item) => {
+      item?.forEach((item) => {
+        this.basketData.push(item)
+      })
+    })
+    });
+
+    this.basketData?.forEach((item) =>{
+
+
+      this.totalPrice = this.totalPrice + item.unitPrice
+
+    })
+
+    this.$store.commit('setTotalPrice',this.totalPrice)
+
+    console.log(this.getTotalPrice);
+
+
+    // console.log(this.basketData);
+
   },
+
+
+
+
 
   methods: {
     itemDetail(item) {
 
-      this.$store.commit("setSelectedProduct",item)
+      this.$store.commit("setSelectedProduct", item)
       this.$router.push({ name: "about", params: { item }, query: { id: item.id } })
     }
   },
+
+  computed: {
+
+    ...mapGetters(['getUser','getTotalPrice'])
+  }
 
 }
 </script>

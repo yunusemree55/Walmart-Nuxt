@@ -97,7 +97,9 @@ export default {
 
       if (userData.password != null && userData.password == userData.password2) {
         const data = {
-          ...userData
+          ...userData,
+          basket:[],
+          favorites:[]
         }
         delete data.password2
 

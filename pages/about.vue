@@ -57,7 +57,7 @@
 
 <script>
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc,doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "~/firebase";
 import { mapGetters } from "vuex"
 
@@ -83,7 +83,12 @@ export default {
   methods: {
     async addToBasket(item) {
 
-      const docRef = await addDoc(collection(db, "baskets"), item)
+      const targetDB = doc(db, "users", this.getUser.email);
+
+
+      await updateDoc(targetDB, {
+        basket: arrayUnion(item)
+      });
 
 
 
@@ -95,7 +100,7 @@ export default {
   },
   computed: {
 
-    ...mapGetters(['checkLoginSituation', 'getSelectedProduct'])
+    ...mapGetters(['checkLoginSituation', 'getSelectedProduct', 'getUser'])
 
   }
 
